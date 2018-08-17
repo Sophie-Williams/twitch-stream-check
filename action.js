@@ -3,7 +3,8 @@ const twitchApi = require('./modules/twitchApi'),
     timeago     = require('timeago-words');
 
 const getFollowers = require('./requests/getFollowers'),
-    getGame        = require('./requests/getGame');
+    getGame        = require('./requests/getGame'),
+    getPartnered   = require('./requests/getPartnered');
 
 // Converts the first character of a string to uppercase
 function firstUp(string) {
@@ -16,15 +17,10 @@ function failure(...error) {
     return process.exit(1);
 }
 
-// Return a string specifying whether the streamer is mature or not
-function matureStatus(mature) {
-    return `This streamer ${ mature ? 'streams' : 'does not stream' } mature content`;
-}
-
-// Return a string specifying whether the streamer is partnered or not
-function partneredStatus(partnered) {
-    return `This streamer ${ partnered ? 'is' : 'is not' } partnered`;
-}
+// // Return a string specifying whether the streamer is mature or not
+// function matureStatus(mature) {
+//     return `This streamer ${ mature ? 'streams' : 'does not stream' } mature content`;
+// }
 
 // Get/output the streamer's details
 module.exports = async (streamer, program) => {
@@ -47,7 +43,7 @@ module.exports = async (streamer, program) => {
     if (followers) messages.push(await getFollowers(stream.user_id));
     if (game)      messages.push(await getGame(stream.game_id));
     // if (mature)    output('blue', 'Mature?',    matureStatus(stream.channel.mature));
-    // if (partnered) output('blue', 'Partnered?', partneredStatus(stream.channel.partner));
+    if (partnered) messages.push(await getPartnered(stream.user_id));
     if (started)   messages.push({ style: 'blue', label: 'Started', text: firstUp(timeago(new Date(stream.started_at))) });
     if (title)     messages.push({ style: 'blue', label: 'Title',   text: stream.title });
     if (viewers)   messages.push({ style: 'blue', label: 'Viewers', text: stream.viewer_count })
