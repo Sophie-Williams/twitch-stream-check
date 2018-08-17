@@ -1,6 +1,6 @@
 const request = require('superagent');
 
-async function twitchApi(path, query, value) {
+async function twitchApi(path, query, value, endpoint = 'data') {
     // Store the URL and request headers...
     const url = `https://api.twitch.tv/helix/${ typeof path === 'object' ? path.join('/') : path }?${ query }=${ value }`,
         header = {
@@ -10,7 +10,7 @@ async function twitchApi(path, query, value) {
     // ... make the request,...
     const response = await request.get(url).set(...header.clientId).set(...header.accept);
     // ... and return the data
-    return JSON.parse(response.text).data;
+    return JSON.parse(response.text)[endpoint];
 }
 
 module.exports = twitchApi;
