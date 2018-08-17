@@ -5,7 +5,7 @@ async function getFollowers(id) {
         style   = !total ? 'red' : 'blue',
         label   = 'Followers',
         text    = !total ? 'No follower data found!' : total;
-    return { style, label, text }
+    return { style, label, text };
 }
 
 module.exports = getFollowers;

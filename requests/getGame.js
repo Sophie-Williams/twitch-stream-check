@@ -1,6 +1,4 @@
-const twitchApi = require('../modules/twitchApi'),
-    label       = 'Game',
-    output      = require('../modules/output');
+const twitchApi = require('../modules/twitchApi');
 
 async function getGame(id) {
     const data = await twitchApi('games', 'id', id),
