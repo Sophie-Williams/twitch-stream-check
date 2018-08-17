@@ -1,10 +1,10 @@
 const twitchApi = require('../modules/twitchApi');
 
 async function getFollowers(id) {
-    const data = await twitchApi([ 'users', 'follows' ], 'to_id', id),
-        style  = !data.length ? 'red' : 'blue',
-        label  = 'Followers',
-        text   = !data.length ? 'No follower data found!' : data.length;
+    const total = await twitchApi([ 'users', 'follows' ], 'to_id', id, 'total'),
+        style   = !total ? 'red' : 'blue',
+        label   = 'Followers',
+        text    = !total ? 'No follower data found!' : total;
     return { style, label, text }
 }
 
